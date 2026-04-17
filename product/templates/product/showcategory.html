@@ -32,8 +32,8 @@
                 <tr>
                     <td>{{c.category_name}}</td>
                     <td>
-                        <a href="/products/updatecategory/{{c.id}}" class="btn btn-primary">Edit</a>
-                        <a href="/products/deletecategory/{{c.id}}" class="btn btn-danger"onclick="return confirm('Are you sure you want to delete this category?')">Delete</a>
+                        <a href="{% url 'product:update_category' c.id %}" class="btn btn-primary">Edit</a>
+                        <a href="{% url 'product:delete_category' c.id %}" class="btn btn-danger"onclick="return confirm('Are you sure you want to delete this category?')">Delete</a>
                     </td>
                 </tr>
                 {% endfor %}

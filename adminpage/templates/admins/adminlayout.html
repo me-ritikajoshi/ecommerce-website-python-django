@@ -13,9 +13,11 @@
   <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
     integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
 
+    {% block title %}
     {% block content %}
     {{section.title}}
-    {% endblock%}
+    {% endblock %}
+    {% endblock %}
 </head>
 
 <body>
@@ -34,12 +36,12 @@
           </div>
           <div class="offcanvas-body">
             <ul class="list-unstyled">
-              <li><a href="/admin/dashboard" class="text-decoration-none text-white">Dashboard</a></li>
+              <li><a href="{% url 'adminpage:dashboard' %}" class="text-decoration-none text-white">Dashboard</a></li>
               <li><a href="#" class="text-decoration-none text-white">Users</a></li>
-              <li><a href="/products" class="text-decoration-none text-white">Products</a></li>
-              <li><a href="/products/addproduct" class="text-decoration-none text-white">Add Products</a></li>
-              <li><a href="/products/showcategory" class="text-decoration-none text-white">Categories</a></li>
-              <li><a href="/products/addcategory" class="text-decoration-none text-white">Add Categories</a></li>
+              <li><a href="{% url 'product:index' %}" class="text-decoration-none text-white">Products</a></li>
+              <li><a href="{% url 'product:add_product' %}" class="text-decoration-none text-white">Add Products</a></li>
+              <li><a href="{% url 'product:show_category' %}" class="text-decoration-none text-white">Categories</a></li>
+              <li><a href="{% url 'product:add_category' %}" class="text-decoration-none text-white">Add Categories</a></li>
               <li><a href="#" class="text-decoration-none text-white">Orders</a></li>
             </ul>
           </div>
@@ -57,7 +59,7 @@
                 src="https://thumbs.dreamstime.com/b/frontal-male-passport-photo-isolated-white-background-eu-standardization-frontal-male-passport-photo-isolated-white-149548031.jpg"
                 alt="" class="img-fluid rounded-circle" width="200">
             </div> -->
-            <a href="/logout" class="btn btn-warning text-decoration-none">Logout</a>
+            <a href="{% url 'userspage:logout' %}" class="btn btn-warning text-decoration-none">Logout</a>
           </div>
         </div>
       </div>

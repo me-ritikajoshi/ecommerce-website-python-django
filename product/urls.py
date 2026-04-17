@@ -1,15 +1,25 @@
 from django.urls import path
-# from .views import index ,post_product,post_category,show_category,delete_category, delete_product,update_category,update_product
 
-from .views import *
+from .views import (
+    delete_category,
+    delete_product,
+    index,
+    post_category,
+    post_product,
+    show_category,
+    update_category,
+    update_product,
+)
 
-urlpatterns=[
-    path('',index),
-    path('addproduct/',post_product),
-    path('addcategory/',post_category),
-    path('showcategory/',show_category),
-    path('deletecategory/<int:category_id>',delete_category),
-    path('deleteproduct/<int:product_id>',delete_product),
-    path('updatecategory/<int:category_id>',update_category),
-    path('updateproduct/<int:product_id>',update_product),
+app_name = "product"
+
+urlpatterns = [
+    path("", index, name="index"),
+    path("addproduct/", post_product, name="add_product"),
+    path("addcategory/", post_category, name="add_category"),
+    path("showcategory/", show_category, name="show_category"),
+    path("deletecategory/<int:category_id>/", delete_category, name="delete_category"),
+    path("deleteproduct/<int:product_id>/", delete_product, name="delete_product"),
+    path("updatecategory/<int:category_id>/", update_category, name="update_category"),
+    path("updateproduct/<int:product_id>/", update_product, name="update_product"),
 ]

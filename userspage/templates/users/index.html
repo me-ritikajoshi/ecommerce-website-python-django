@@ -52,7 +52,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{item.product_name}}</h5>
                     <h5>Rs {{item.product_price}}</h5>
-                    <a href="/productdetails/{{item.id}}" class="btn btn-success">View Details</a>
+                    <a href="{% url 'userspage:product_details' item.id %}" class="btn btn-success">View Details</a>
                 </div>
             </div>
         </div>

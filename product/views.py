@@ -1,124 +1,124 @@
-from django.shortcuts import render,redirect
-from .models import Product, Category
-from .forms import ProductForm, CategoryForm
 from django.contrib import messages
-from django .contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, redirect, render
+
 from userspage.auth import admin_only
 
-# Create your views here.
+from .forms import CategoryForm, ProductForm
+from .models import Category, Product
+
+
 @login_required
 @admin_only
 def index(request):
-    # return HttpResponse('This is from the product app view')
-    products=Product.objects.all()
-    context={
-        'products':products
+    products = Product.objects.select_related("category").all()
+    context = {
+        "products": products,
     }
-    return render(request,'product/index.html',context)
+    return render(request, "product/index.html", context)
+
 
 @login_required
 @admin_only
 def post_product(request):
-    #to insert product
-    if request.method=='POST' :
-        form=ProductForm(request.POST,request.FILES)
+    if request.method == "POST":
+        form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            messages.add_message(request,messages.SUCCESS,'Product added')
-            return redirect('/products/addproduct/')
-        else:
-            messages.add_message(request,messages.ERROR,'Please verfiy form fields')
-            return render(request,'product/addproduct.html',{'forms':form})
+            messages.success(request, "Product added")
+            return redirect("product:add_product")
 
-#to show add product form
-    context={
-        'forms': ProductForm
+        messages.error(request, "Please verify form fields")
+        return render(request, "product/addproduct.html", {"forms": form})
+
+    context = {
+        "forms": ProductForm(),
     }
-    return render(request,'product/addproduct.html',context)
+    return render(request, "product/addproduct.html", context)
+
 
 @login_required
 @admin_only
 def post_category(request):
-    #to insert category
-    if request.method=='POST' :
-        form=CategoryForm(request.POST)
+    if request.method == "POST":
+        form = CategoryForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.add_message(request,messages.SUCCESS,'Category added')
-            return redirect('/products/addcategory/')
-        else:
-            messages.add_message(request,messages.ERROR,'Please verfiy form fields')
-            return render(request,'product/addcategory.html',{'forms':form})
+            messages.success(request, "Category added")
+            return redirect("product:add_category")
 
-#to show add category form
-    context={
-        'forms': CategoryForm
+        messages.error(request, "Please verify form fields")
+        return render(request, "product/addcategory.html", {"forms": form})
+
+    context = {
+        "forms": CategoryForm(),
     }
-    return render(request,'product/addcategory.html',context)
+    return render(request, "product/addcategory.html", context)
+
 
 @login_required
 @admin_only
 def show_category(request):
-    category=Category.objects.all()
-    context={
-        'category':category
+    category = Category.objects.all()
+    context = {
+        "category": category,
     }
-    return render(request,'product/showcategory.html',context)
+    return render(request, "product/showcategory.html", context)
 
-#to delete category
+
 @login_required
 @admin_only
-def delete_category(request,category_id):
-    category=Category.objects.get(id=category_id)
+def delete_category(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
     category.delete()
-    messages.add_message(request,messages.SUCCESS,'Category deleted')
-    return redirect('/products/showcategory')
+    messages.success(request, "Category deleted")
+    return redirect("product:show_category")
 
-#to delete product
+
 @login_required
 @admin_only
-def delete_product(request,product_id):
-    product=Product.objects.get(id=product_id)
+def delete_product(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
     product.delete()
-    messages.add_message(request,messages.SUCCESS,'Product deleted')
-    return redirect('/products')
+    messages.success(request, "Product deleted")
+    return redirect("product:index")
 
-#to edit/update category
+
 @login_required
 @admin_only
-def update_category(request,category_id):
-    instance=Category.objects.get(id=category_id)
-    if request.method=='POST' :
-        form=CategoryForm(request.POST,instance=instance)
+def update_category(request, category_id):
+    instance = get_object_or_404(Category, id=category_id)
+    if request.method == "POST":
+        form = CategoryForm(request.POST, instance=instance)
         if form.is_valid():
             form.save()
-            messages.add_message(request,messages.SUCCESS,'Category updated')
-            return redirect('/products/showcategory/')
-        else:
-            messages.add_message(request,messages.ERROR,'Please verfiy form fields')
-            return render(request,'product/updatecategory.html',{'forms':form})
-    
-    context={
-        'forms':CategoryForm(instance=instance)
-    }
-    return render(request,'product/updatecategory.html',context)
+            messages.success(request, "Category updated")
+            return redirect("product:show_category")
 
-#to update product
+        messages.error(request, "Please verify form fields")
+        return render(request, "product/updatecategory.html", {"forms": form})
+
+    context = {
+        "forms": CategoryForm(instance=instance),
+    }
+    return render(request, "product/updatecategory.html", context)
+
+
 @login_required
 @admin_only
-def update_product(request,product_id):
-    instance=Product.objects.get(id=product_id)
-    if request.method=='POST' :
-        form=ProductForm(request.POST,request.FILES,instance=instance)
+def update_product(request, product_id):
+    instance = get_object_or_404(Product, id=product_id)
+    if request.method == "POST":
+        form = ProductForm(request.POST, request.FILES, instance=instance)
         if form.is_valid():
             form.save()
-            messages.add_message(request,messages.SUCCESS,'Product updated')
-            return redirect('/products')
-        else:
-            messages.add_message(request,messages.ERROR,'Please verfiy form fields')
-            return render(request,'product/updateproduct.html',{'forms':form})
-    
-    context={
-        'forms':ProductForm(instance=instance)
+            messages.success(request, "Product updated")
+            return redirect("product:index")
+
+        messages.error(request, "Please verify form fields")
+        return render(request, "product/updateproduct.html", {"forms": form})
+
+    context = {
+        "forms": ProductForm(instance=instance),
     }
-    return render(request,'product/updateproduct.html',context)
+    return render(request, "product/updateproduct.html", context)

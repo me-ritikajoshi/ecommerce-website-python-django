@@ -23,8 +23,8 @@
                     <input value="0" name="pdc" type="hidden">
                     <input value="EPAYTEST" name="scd" type="hidden">
                     <input value="{{order.id}}_{{cart.id}}" name="pid" type="hidden">
-                    <input value="http://127.0.0.1:8000/esewa_verify" type="hidden" name="su">
-                    <input value="{{request.build_absolute_uri}}" type="hidden" name="fu">
+                    <input value="{{ request.build_absolute_uri|cut:request.get_full_path }}{% url 'userspage:esewa_verify_legacy' %}" type="hidden" name="su">
+                    <input value="{{ request.build_absolute_uri|cut:request.get_full_path }}{% url 'userspage:my_order' %}" type="hidden" name="fu">
                     <input value="Submit" type="submit">
                 </form>
             </div>

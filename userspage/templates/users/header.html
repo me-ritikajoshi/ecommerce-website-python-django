@@ -1,14 +1,20 @@
 <!-- start of header content -->
+{% url 'userspage:home' as home_url %}
+{% url 'userspage:product_list' as product_list_url %}
+{% url 'userspage:login' as login_url %}
+{% url 'userspage:register' as register_url %}
+{% url 'userspage:logout' as logout_url %}
+{% url 'userspage:profile' as profile_url %}
 <header class="p-3 text-bg-dark">
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+            <a href="{{ home_url }}" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
                 <img src="" alt="">
             </a>
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="/" class="nav-link px-2 text-secondary">Home</a></li>
-                <li><a href="/productlist" class="nav-link px-2 text-white">Products</a></li>
+                <li><a href="{{ home_url }}" class="nav-link px-2 text-secondary">Home</a></li>
+                <li><a href="{{ product_list_url }}" class="nav-link px-2 text-white">Products</a></li>
                 <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
                 <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
                 <li><a href="#" class="nav-link px-2 text-white">About</a></li>
@@ -21,11 +27,11 @@
 
             <div class="text-end">
                 {% if user.is_authenticated %}
-                <a href="#" class="btn btn-outline-light me-2">{{user.username}}</a>
-                <a href="/logout" class="btn btn-danger">Logout</a>
+                <a href="{{ profile_url }}" class="btn btn-outline-light me-2">{{user.username}}</a>
+                <a href="{{ logout_url }}" class="btn btn-danger">Logout</a>
                 {% else %}
-                <a href="/login" class="btn btn-outline-light me-2">Login</a>
-                <a href="/register" class="btn btn-warning">Sign-up</a>
+                <a href="{{ login_url }}" class="btn btn-outline-light me-2">Login</a>
+                <a href="{{ register_url }}" class="btn btn-warning">Sign-up</a>
                 {% endif%}
             </div>
         </div>

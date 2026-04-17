@@ -21,7 +21,7 @@
                 <p><strong>Category:</strong>{{product.category}}</p>
                 <p class="card-text">{{product.product_description}}</p>
                 <div class="d-flex justify-content-center mt-3">
-                    <a href="/addtocart/{{product.id}}" class="btn btn-warning">Add to Cart</a>
+                    <a href="{% url 'userspage:add_to_cart' product.id %}" class="btn btn-warning">Add to Cart</a>
                 </div>
             </div>
         </div>

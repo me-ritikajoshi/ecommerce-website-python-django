@@ -18,7 +18,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{item.product_name}}</h5>
                     <h5>Rs {{item.product_price}}</h5>
-                    <a href="/productdetails/{{item.id}}" class="btn btn-success">View Details</a>
+                    <a href="{% url 'userspage:product_details' item.id %}" class="btn btn-success">View Details</a>
                 </div>
             </div>
         </div>
@@ -26,6 +26,38 @@
     </div>
 </div>
 <!-- end of product section -->
+
+{% if page_obj %}
+<div class="container my-4">
+    <nav aria-label="Product pagination">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">Previous</span>
+            </li>
+            {% endif %}
+
+            <li class="page-item disabled">
+                <span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+            </li>
+
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">Next</span>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endif %}
 
 {% include 'users/footer.html' %}
 {% endblock%}

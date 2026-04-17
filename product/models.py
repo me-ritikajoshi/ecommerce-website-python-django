@@ -5,6 +5,9 @@ class Category(models.Model):
     category_name=models.CharField(max_length=255, unique=True)
     created_at=models.DateTimeField(auto_now_add=True, null=True)
 
+    class Meta:
+        ordering = ("category_name",)
+
     def __str__(self):
         return self.category_name
 
@@ -17,6 +20,9 @@ class Product(models.Model):
     created_at=models.DateTimeField(auto_now_add=True, null=True)
     category=models.ForeignKey(Category,on_delete=models.CASCADE, null=True)
 
+    class Meta:
+        ordering = ("-created_at", "-id")
+
     def __str__(self):
         return self.product_name
 
@@ -24,6 +30,12 @@ class Cart(models.Model):
     product=models.ForeignKey(Product, on_delete=models.CASCADE)
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     created_at=models.DateTimeField(auto_now_add=True, null=True)
+
+    class Meta:
+        ordering = ("-created_at", "-id")
+
+    def __str__(self):
+        return f"{self.user.username} - {self.product.product_name}"
 
 class Order(models.Model):
     PAYMENT=(
@@ -41,4 +53,9 @@ class Order(models.Model):
     address=models.CharField(max_length=100,null=True)
     created_at=models.DateTimeField(auto_now_add=True, null=True)
 
+    class Meta:
+        ordering = ("-created_at", "-id")
+
+    def __str__(self):
+        return f"Order #{self.id} - {self.product.product_name} x {self.quantity}"
 
